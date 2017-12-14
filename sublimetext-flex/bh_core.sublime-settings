@@ -1,0 +1,14 @@
+{
+    "user_brackets": [
+        {
+            "name": "FlexSL_keywords",
+            "open": "\\b(IF|PARAMETERS|SWITCH|WHILE|RESULTS|DEFAULT|SPECIAL CASES|CASES|CASE|ON|IF_NOT_EXISTS)\\b",
+            "close": "\\b(END IF|END PARAMETERS|END SWITCH|END WHILE|END RESULTS|END DEFAULT|END SPECIAL CASES|END CASES|END CASE|END ON|END IF_NOT_EXISTS)\\b",
+            "style": "default",
+            "scope_exclude": ["string", "comment"],
+            "language_filter": "whitelist",
+            "language_list": ["FlexSL"],
+            "enabled": true
+        }
+    ]
+}
