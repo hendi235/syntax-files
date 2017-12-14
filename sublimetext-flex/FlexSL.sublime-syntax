@@ -1,0 +1,97 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+file_extensions: [sl, dataflow]
+scope: source.flexsl
+contexts:
+  main:
+    # Keywords are if, else for and while.
+    # Note that blackslashes don't need to be escaped within single quoted
+    # strings in YAML. When using single quoted strings, only single quotes
+    # need to be escaped: this is done by using two single quotes next to each
+    # other.
+    - match: '\b(END IF|IF|ELSE|ELSIF|END WHILE|WHILE|THEN|END PARAMETERS|PARAMETERS|END RESULTS|RESULTS|MANDATORY|\
+              |END SWITCH|SWITCH|EQUALS|END CASE|CASE|END CASES|CASES|END ON|ON|EXISTS|END DEFAULT|DEFAULT|\
+              |SPECIAL CASES|END SPECIAL CASES|SIZE OF|RETURN|OR|NOT|AND|#|EXIT|DO|END IF_NOT_EXISTS|IF_NOT_EXISTS|\
+              |CALL_IF_EXISTS|ADMIN_INSTANCE|INTERFACE|DIV|MOD|FINAL_EXITS_THIS_LOGIC_ONLY|CALL|INSTANCE)\b'
+      scope: keyword.control.ruby
+
+    # Storage type
+    - match: '\b(CONST|ENUM|BOOLEAN|STRING|INTEGER|LONG|DATE|TIME|DATE_AND_TIME|FLOAT|BYTE|ARRAY)\b'
+      scope: storage.flexsl
+
+    # other constant
+    - match: '\b(TRUE|FALSE|NULL)\b'
+      #scope: constant.other.flexsl
+      scope: keyword.control.ruby
+
+    # Flex Action
+    - match: '\b(Abort|AccessStatisticsCounter|Addition|AddNumberToList|AppendAnnoForGroupCall|\
+|AppendAnnouncement|PlayAnnouncement|AppendClassification|AppendMenuItem|AppendMenuItemSelCodeList|\
+|AppendValue|ArrayCopy|AsciiToChar|Assignment|Charge|DeleteBalObject|ReadBalance|\
+|Recharge|ReleaseReservation|Reserve|SetSessionCreditLimit|SetExpirationDate|\
+|BitwiseOps|BooleanTerm|CallSubroutine|ChangeNumberAtPositionInList|CheckPin|\
+|CounterCalculateNextDate|CounterCheckAccumulators|CounterGetPeriodFactor|SetSessionValues|\
+|CounterGetSubscriberValue|CounterInitialize|CounterRemove|CounterSetBalances|\
+|CounterSetSubscriberValue|CreateUniqueId|CutPrefix|DecodeString|DecrementUseCaseCounter|\
+|DeleteNumberFromList|DeleteSubscription|DynamicAliasGenAcc|ExistsVariable|Connect|\
+|FindDiscountsForContract|FindInDataModel|FindMandatoryPackagesForContract|FindMnpData|\
+|FindPeriodicForContract|FindProductForContract|FindSubscriptionsForContract|FloatDivision|GetProfileAttributeByName|\
+|FlushNotifications|Format|genMsgAddLeafs|genMsgCreateNewMsg|genMsgGetEnumValue|\
+|genMsgGetEventType|genMsgReadEventAttribute|genMsgSendAndFlush|GetAllPackageProfiles|SelectPackageProfile|GetCalendarField|\
+|GetCellCongestion|GetCurrentTime|GetGroupMembership|GetHandleOfCursor|GetLogicId|\
+|GetNumberFromList|GetNumberOfReferencedEntities|GetOnTouchDateForSubscription|\
+|GetRoamingZone|GetRoamingZoneByDomain|GetRoamingZoneByIPAddress|GetRoamingZoneByMccMnc|\
+|GetSize|GetSubscriptions|GetSubscriptionState|GetSuppliers|GetTimeId|GetTimeZoneInfo|\
+|GetValue|GroupCall|HttpRequest|IfEqual|IfGreater|IfLess|GetBalanceHandleByTTMapping|IncrementUseCaseCounter|\
+|IndexOf|InsertNewSubscription|IntegerDivision|IsClassificationAvailable|IsInRange|\
+|IsNumberInList|IsPerformanceTimerRunning|IsSubscriptionActive|IsSubscriptionInfoSet|\
+|IsSubscriptionMandatory|IsValueAvailable|LoadSubscriberData|BalanceIdToName|Condition|\
+|BalanceNameToId|Matrix|Maximum|MaximumFromList|Minimum|MinimumFromList|ModifyDate|\
+|ModifyNumberInList|Modulo|Multiplication|Multiplex|NavigateCursor|NavigateCursorInList|\
+|NoOperation|Notify|NotifyImmediately|NormalizeNumber|PatternMatch|PlayAnnouncement|\
+|PlayMenu|Prompt|ReadCIBMessage|ReadESXMessage|ReadTicket|RemoveGenericAccessVariable|\
+|RemoveOptionalGDMAttribute|RequestNotifyImmediately|ResetMenuAndAnnos|SendAtiMessage|\
+|SendAtmMessage|SendAtsiMessage|SendCIBMessage|SendESXMessage|SendSmsViaMap|SendSms|\
+|SendUSSDNotification|SendUSSDPrompt|SendUSSDResponse|SetBalance|SetCallTicketFields|\
+|SetCursorByHandle|SetLocalPushFields|SetOnTouchDateForSubscription|SetPushFields|\
+|SetSubscriptionActive|SetSubscriptionInfo|Sort|StandardVoucherRecharging|TimeZone|\
+|StopPerformanceTimer|StringCase|StringConcatenation|StringLength|StringReplace|\
+|StringStartsWith|StringTokenizer|SubString|Subtraction|Switch|SetNextTariffParameterArray|TimeIntervals|\
+|Trace|TypeCast|WasSubscriptionInsertedViaBatch|WriteConfirmationTicket|StartPerformanceTimer)\b'
+      #scope: entity.name.function.flexsl
+      scope: constant.other.flexsl
+
+    # Generic Access
+    - match: '\b(AdditionalResult|CA.|Balancing|Const|CallSupervision|convChargingGA|CCS|Counters|CheapSpot|AdminRating.|AdminRatingParam|\
+              |DTMF|FBC|TMAF|HotCharge|InputParameter|OnTouch|QoS|RatingInformation|theGenericAccess|tga|\
+              |Eventconst.|URecharging.|DynamicCharging|SubsDM(FUS|DB))(\.|\w)+\b'
+      scope: constant.language.flexsl
+
+    # Numbers
+    - match: '\b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f|ll|LL|ull|ULL)?\b'
+      scope: constant.numeric.flexsl
+
+
+    # Strings begin and end with quotes, and use backslashes as an escape
+    # character
+    - match: '"'
+      push: double_quoted_string
+
+    # Comments begin with a '//' and finish at the end of the line
+    - match: '//'
+      push: line_comment
+
+  line_comment:
+    - meta_scope: comment.line.flexsl
+    - match: $
+      pop: true
+
+  double_quoted_string:
+    - meta_scope: string.quoted.double.flexsl
+    - match: '\\.'
+      scope: constant.character.escape.perl
+    - match: '"'
+      pop: true
+
+
